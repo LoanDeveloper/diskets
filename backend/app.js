@@ -345,6 +345,29 @@ app.post('/likes', (req, res) => {
   });
 });
 
+// Mettre à jour un like (changer l'excuse likée ou l'utilisateur)
+app.put('/likes/:id', (req, res) => {
+  const { id } = req.params;
+  const { excuse_id, utilisateur_id } = req.body;
+
+  const sql = `
+      UPDATE likes 
+      SET excuse_id = COALESCE(?, excuse_id), 
+          utilisateur_id = COALESCE(?, utilisateur_id)
+      WHERE id = ?`;
+
+  db.query(sql, [excuse_id, utilisateur_id, id], (err, result) => {
+      if (err) {
+          return res.status(500).send('Erreur lors de la mise à jour du like');
+      }
+      if (result.affectedRows === 0) {
+          return res.status(404).send('Like non trouvé');
+      }
+      res.json({ id, excuse_id, utilisateur_id });
+  });
+});
+
+
 // Supprimer un like
 app.delete('/likes/:id', (req, res) => {
   const { id } = req.params;
