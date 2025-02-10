@@ -27,9 +27,13 @@ Les excuses sont classées par catégorie, et les utilisateurs peuvent interagir
 - password (VARCHAR(255)) : Mot de passe crypté de l'utilisateur.
 - role (VARCHAR(50)) : Rôle de l'utilisateur (ex : "admin", "utilisateur").
 
+**Categories**
+- id (INT, AUTO_INCREMENT) : Identifiant unique de la catégorie.
+- nom (VARCHAR(100)) : Nom de la catégorie (ex : travail, école, etc.).
+
 **Excuses**
 - id (INT, AUTO_INCREMENT) : Identifiant unique de l'excuse.
-- categorie (VARCHAR(100)) : Catégorie de l'excuse (travail, école, etc.).
+- categorie_id (INT) : Identifiant de la catégorie à laquelle l'excuse appartient.
 - texte (TEXT) : Texte de l'excuse générée par l'IA.
 
 **Likes**
