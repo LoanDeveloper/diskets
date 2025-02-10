@@ -414,6 +414,30 @@ app.post('/votes', (req, res) => {
   });
 });
 
+// Mettre à jour un vote (changer la valeur du vote ou l'utilisateur)
+app.put('/votes/:id', (req, res) => {
+  const { id } = req.params;
+  const { excuse_id, utilisateur_id, vote } = req.body;
+
+  const sql = `
+      UPDATE votes 
+      SET excuse_id = COALESCE(?, excuse_id), 
+          utilisateur_id = COALESCE(?, utilisateur_id), 
+          vote = COALESCE(?, vote)
+      WHERE id = ?`;
+
+  db.query(sql, [excuse_id, utilisateur_id, vote, id], (err, result) => {
+      if (err) {
+          return res.status(500).send('Erreur lors de la mise à jour du vote');
+      }
+      if (result.affectedRows === 0) {
+          return res.status(404).send('Vote non trouvé');
+      }
+      res.json({ id, excuse_id, utilisateur_id, vote });
+  });
+});
+
+
 // Supprimer un vote
 app.delete('/votes/:id', (req, res) => {
   const { id } = req.params;
