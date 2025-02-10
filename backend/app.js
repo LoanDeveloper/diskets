@@ -292,6 +292,51 @@ app.delete('/justificatifs/:id', (req, res) => {
   });
 });
 
+// Likes
+
+// Obtenir tous les likes
+app.get('/likes', (req, res) => {
+  const sql = 'SELECT * FROM likes';
+  db.query(sql, (err, results) => {
+      if (err) {
+          return res.status(500).send('Erreur lors de la récupération des likes');
+      }
+      res.json(results);
+  });
+});
+
+// Ajouter un like
+app.post('/likes', (req, res) => {
+  const { excuse_id, utilisateur_id } = req.body;
+
+  if (!excuse_id || !utilisateur_id) {
+      return res.status(400).send('Les champs excuse_id et utilisateur_id sont obligatoires');
+  }
+
+  const sql = 'INSERT INTO likes (excuse_id, utilisateur_id) VALUES (?, ?)';
+  db.query(sql, [excuse_id, utilisateur_id], (err, result) => {
+      if (err) {
+          return res.status(500).send('Erreur lors de l\'ajout du like');
+      }
+      res.status(201).json({ id: result.insertId, excuse_id, utilisateur_id });
+  });
+});
+
+// Supprimer un like
+app.delete('/likes/:id', (req, res) => {
+  const { id } = req.params;
+  const sql = 'DELETE FROM likes WHERE id = ?';
+
+  db.query(sql, [id], (err, result) => {
+      if (err) {
+          return res.status(500).send('Erreur lors de la suppression du like');
+      }
+      if (result.affectedRows === 0) {
+          return res.status(404).send('Like non trouvé');
+      }
+      res.send(`Like avec l'id ${id} supprimé.`);
+  });
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
