@@ -276,6 +276,29 @@ app.post('/justificatifs', (req, res) => {
   });
 });
 
+// Mettre à jour un justificatif
+app.put('/justificatifs/:id', (req, res) => {
+  const { id } = req.params;
+  const { excuse_id, image_url } = req.body;
+
+  const sql = `
+      UPDATE justificatifs 
+      SET excuse_id = COALESCE(?, excuse_id), 
+          image_url = COALESCE(?, image_url)
+      WHERE id = ?`;
+
+  db.query(sql, [excuse_id, image_url, id], (err, result) => {
+      if (err) {
+          return res.status(500).send('Erreur lors de la mise à jour du justificatif');
+      }
+      if (result.affectedRows === 0) {
+          return res.status(404).send('Justificatif non trouvé');
+      }
+      res.json({ id, excuse_id, image_url });
+  });
+});
+
+
 // Supprimer un justificatif
 app.delete('/justificatifs/:id', (req, res) => {
   const { id } = req.params;
