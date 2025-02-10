@@ -38,6 +38,75 @@ db.query('USE bmazon', (err) => {
   }
 });
 
+
+// API Routes
+
+// Obtenir toutes les excuses
+app.get('/excuses', (req, res) => {
+  const sql = 'SELECT * FROM Excuses';
+  db.query(sql, (err, results) => {
+      if (err) {
+          return res.status(500).send('Erreur lors de la récupération des excuses');
+      }
+      res.json(results);
+  });
+});
+
+// Ajouter une nouvelle excuse
+app.post('/excuses', (req, res) => {
+  const { categorie, texte } = req.body;
+
+  if (!categorie || !texte) {
+      return res.status(400).send('Les champs catégorie et texte sont obligatoires');
+  }
+
+  const sql = 'INSERT INTO Excuses (categorie, texte) VALUES (?, ?)';
+  db.query(sql, [categorie, texte], (err, result) => {
+      if (err) {
+          return res.status(500).send('Erreur lors de l\'ajout de l\'excuse');
+      }
+      res.status(201).json({ id: result.insertId, categorie, texte });
+  });
+});
+
+// Mettre à jour une excuse
+app.put('/excuses/:id', (req, res) => {
+  const { id } = req.params;
+  const { categorie, texte } = req.body;
+
+  const sql = `
+      UPDATE Excuses
+      SET categorie = COALESCE(?, categorie),
+          texte = COALESCE(?, texte)
+      WHERE id = ?`;
+
+  db.query(sql, [categorie, texte, id], (err, result) => {
+      if (err) {
+          return res.status(500).send('Erreur lors de la mise à jour de l\'excuse');
+      }
+      if (result.affectedRows === 0) {
+          return res.status(404).send('Excuse non trouvée');
+      }
+      res.json({ id, categorie, texte });
+  });
+});
+
+// Supprimer une excuse
+app.delete('/excuses/:id', (req, res) => {
+  const { id } = req.params;
+  const sql = 'DELETE FROM Excuses WHERE id = ?';
+
+  db.query(sql, [id], (err, result) => {
+      if (err) {
+          return res.status(500).send('Erreur lors de la suppression de l\'excuse');
+      }
+      if (result.affectedRows === 0) {
+          return res.status(404).send('Excuse non trouvée');
+      }
+      res.send(`Excuse avec l'id ${id} supprimée.`);
+  });
+});
+
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
