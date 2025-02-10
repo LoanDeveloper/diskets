@@ -43,7 +43,7 @@ db.query('USE diskets', (err) => {
 
 // Obtenir toutes les excuses
 app.get('/excuses', (req, res) => {
-  const sql = 'SELECT * FROM Excuses';
+  const sql = 'SELECT * FROM excuses';
   db.query(sql, (err, results) => {
       if (err) {
           return res.status(500).send('Erreur lors de la récupération des excuses');
@@ -54,47 +54,47 @@ app.get('/excuses', (req, res) => {
 
 // Ajouter une nouvelle excuse
 app.post('/excuses', (req, res) => {
-  const { categorie, texte } = req.body;
+  const { categorie_id, texte } = req.body;
 
-  if (!categorie || !texte) {
-      return res.status(400).send('Les champs catégorie et texte sont obligatoires');
+  if (!categorie_id || !texte) {
+      return res.status(400).send('Les champs categorie_id et texte sont obligatoires');
   }
 
-  const sql = 'INSERT INTO Excuses (categorie, texte) VALUES (?, ?)';
-  db.query(sql, [categorie, texte], (err, result) => {
+  const sql = 'INSERT INTO excuses (categorie_id, texte) VALUES (?, ?)';
+  db.query(sql, [categorie_id, texte], (err, result) => {
       if (err) {
           return res.status(500).send('Erreur lors de l\'ajout de l\'excuse');
       }
-      res.status(201).json({ id: result.insertId, categorie, texte });
+      res.status(201).json({ id: result.insertId, categorie_id, texte });
   });
 });
 
 // Mettre à jour une excuse
 app.put('/excuses/:id', (req, res) => {
   const { id } = req.params;
-  const { categorie, texte } = req.body;
+  const { categorie_id, texte } = req.body;
 
   const sql = `
-      UPDATE Excuses
-      SET categorie = COALESCE(?, categorie),
+      UPDATE excuses
+      SET categorie_id = COALESCE(?, categorie_id),
           texte = COALESCE(?, texte)
       WHERE id = ?`;
 
-  db.query(sql, [categorie, texte, id], (err, result) => {
+  db.query(sql, [categorie_id, texte, id], (err, result) => {
       if (err) {
           return res.status(500).send('Erreur lors de la mise à jour de l\'excuse');
       }
       if (result.affectedRows === 0) {
           return res.status(404).send('Excuse non trouvée');
       }
-      res.json({ id, categorie, texte });
+      res.json({ id, categorie_id, texte });
   });
 });
 
 // Supprimer une excuse
 app.delete('/excuses/:id', (req, res) => {
   const { id } = req.params;
-  const sql = 'DELETE FROM Excuses WHERE id = ?';
+  const sql = 'DELETE FROM excuses WHERE id = ?';
 
   db.query(sql, [id], (err, result) => {
       if (err) {
