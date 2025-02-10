@@ -338,6 +338,53 @@ app.delete('/likes/:id', (req, res) => {
   });
 });
 
+// Votes
+
+// Obtenir tous les votes
+app.get('/votes', (req, res) => {
+  const sql = 'SELECT * FROM votes';
+  db.query(sql, (err, results) => {
+      if (err) {
+          return res.status(500).send('Erreur lors de la récupération des votes');
+      }
+      res.json(results);
+  });
+});
+
+// Ajouter un vote
+app.post('/votes', (req, res) => {
+  const { excuse_id, utilisateur_id, vote } = req.body;
+
+  if (!excuse_id || !utilisateur_id || vote === undefined) {
+      return res.status(400).send('Les champs excuse_id, utilisateur_id et vote sont obligatoires');
+  }
+
+  const sql = 'INSERT INTO votes (excuse_id, utilisateur_id, vote) VALUES (?, ?, ?)';
+  db.query(sql, [excuse_id, utilisateur_id, vote], (err, result) => {
+      if (err) {
+          return res.status(500).send('Erreur lors de l\'ajout du vote');
+      }
+      res.status(201).json({ id: result.insertId, excuse_id, utilisateur_id, vote });
+  });
+});
+
+// Supprimer un vote
+app.delete('/votes/:id', (req, res) => {
+  const { id } = req.params;
+  const sql = 'DELETE FROM votes WHERE id = ?';
+
+  db.query(sql, [id], (err, result) => {
+      if (err) {
+          return res.status(500).send('Erreur lors de la suppression du vote');
+      }
+      if (result.affectedRows === 0) {
+          return res.status(404).send('Vote non trouvé');
+      }
+      res.send(`Vote avec l'id ${id} supprimé.`);
+  });
+});
+
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
