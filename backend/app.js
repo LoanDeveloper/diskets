@@ -12,6 +12,8 @@ app.use((req, res, next) => {
   next();
 })
 
+
+
 // MySQL Connection
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -20,7 +22,6 @@ const db = mysql.createConnection({
   database: process.env.DB_NAME,
 });
 
-// Connect to MySQL
 db.connect((err) => {
   if (err) {
     console.error('Error connecting to MySQL: ' + err.stack);
@@ -29,7 +30,6 @@ db.connect((err) => {
   console.log('Connected to MySQL as ID ' + db.threadId);
 });
 
-// Assurez-vous que la base de données active est définie
 db.query('USE bmazon', (err) => {
   if (err) {
       console.error('Erreur lors de la sélection de la base de données :', err.message);
@@ -39,9 +39,7 @@ db.query('USE bmazon', (err) => {
 });
 
 
-// API Routes
 
-// Obtenir toutes les excuses
 app.get('/excuses', (req, res) => {
   const sql = 'SELECT * FROM Excuses';
   db.query(sql, (err, results) => {
@@ -69,7 +67,6 @@ app.post('/excuses', (req, res) => {
   });
 });
 
-// Mettre à jour une excuse
 app.put('/excuses/:id', (req, res) => {
   const { id } = req.params;
   const { categorie, texte } = req.body;
@@ -91,7 +88,6 @@ app.put('/excuses/:id', (req, res) => {
   });
 });
 
-// Supprimer une excuse
 app.delete('/excuses/:id', (req, res) => {
   const { id } = req.params;
   const sql = 'DELETE FROM Excuses WHERE id = ?';
