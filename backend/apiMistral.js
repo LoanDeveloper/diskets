@@ -1,4 +1,4 @@
-const getData = async (api_key, prompt) => {
+export const mistral = async (prompt) => {
     const url = "https://api.mistral.ai/v1/chat/completions";
 
     const requestBody = {
@@ -11,7 +11,7 @@ const getData = async (api_key, prompt) => {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            "Authorization": `Bearer ${api_key}`
+            "Authorization": "Bearer 2rv6mrCgjbspckbk090ZZKjFTbPjnnVD"
         },
         body: JSON.stringify(requestBody)
       })
@@ -26,7 +26,3 @@ const getData = async (api_key, prompt) => {
       console.error(error.message)
     }
   }
-
-console.log(getData("2rv6mrCgjbspckbk090ZZKjFTbPjnnVD", "Cocorico ça veut dire quoi ?").then((data) => {
-    console.log(data)
-}))

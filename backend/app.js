@@ -51,7 +51,6 @@ app.get('/excuses', (req, res) => {
   });
 });
 
-// Ajouter une nouvelle excuse
 app.post('/excuses', (req, res) => {
   const { categorie_id, texte } = req.body;
 
