@@ -43,6 +43,8 @@ db.query('USE diskets', (err) => {
 
 // API Routes
 
+// Excuses
+
 // Obtenir toutes les excuses
 app.get('/excuses', (req, res) => {
   const sql = 'SELECT * FROM excuses';
@@ -145,6 +147,8 @@ app.delete('/excuses/:id', (req, res) => {
   });
 });
 
+// Catégories
+
 // Obtenir toutes les catégories
 app.get('/categories', (req, res) => {
   const sql = 'SELECT * FROM categories';
@@ -225,6 +229,69 @@ app.delete('/categories/:id', (req, res) => {
       res.send(`Catégorie avec l'id ${id} supprimée.`);
   });
 });
+
+// Justificatifs 
+
+// Obtenir tous les justificatifs
+app.get('/justificatifs', (req, res) => {
+  const sql = 'SELECT * FROM justificatifs';
+  db.query(sql, (err, results) => {
+      if (err) {
+          return res.status(500).send('Erreur lors de la récupération des justificatifs');
+      }
+      res.json(results);
+  });
+});
+
+// Obtenir un justificatif par ID
+app.get('/justificatifs/:id', (req, res) => {
+  const { id } = req.params;
+  const sql = 'SELECT * FROM justificatifs WHERE id = ?';
+
+  db.query(sql, [id], (err, results) => {
+      if (err) {
+          return res.status(500).send('Erreur lors de la récupération du justificatif');
+      }
+      if (results.length === 0) {
+          return res.status(404).send('Justificatif non trouvé');
+      }
+      res.json(results[0]);
+  });
+});
+
+// Ajouter un justificatif
+app.post('/justificatifs', (req, res) => {
+  const { excuse_id, image_url } = req.body;
+
+  if (!excuse_id || !image_url) {
+      return res.status(400).send('Les champs excuse_id et image_url sont obligatoires');
+  }
+
+  const sql = 'INSERT INTO justificatifs (excuse_id, image_url) VALUES (?, ?)';
+  db.query(sql, [excuse_id, image_url], (err, result) => {
+      if (err) {
+          return res.status(500).send('Erreur lors de l\'ajout du justificatif');
+      }
+      res.status(201).json({ id: result.insertId, excuse_id, image_url });
+  });
+});
+
+// Supprimer un justificatif
+app.delete('/justificatifs/:id', (req, res) => {
+  const { id } = req.params;
+  const sql = 'DELETE FROM justificatifs WHERE id = ?';
+
+  db.query(sql, [id], (err, result) => {
+      if (err) {
+          return res.status(500).send('Erreur lors de la suppression du justificatif');
+      }
+      if (result.affectedRows === 0) {
+          return res.status(404).send('Justificatif non trouvé');
+      }
+      res.send(`Justificatif avec l'id ${id} supprimé.`);
+  });
+});
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
