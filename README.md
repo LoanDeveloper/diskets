@@ -19,5 +19,34 @@ Les excuses sont classées par catégorie, et les utilisateurs peuvent interagir
 - ❤️ Likes d'excuses pour sauvegarder ses favorites
 - 📜 Génération d'images de faux justificatifs (option bonus)
 
+## 📚 Base de Données
+
+**users**
+- id (INT, AUTO_INCREMENT) : Identifiant unique de l'utilisateur.
+- email (VARCHAR(255)) : Adresse email de l'utilisateur.
+- password (VARCHAR(255)) : Mot de passe crypté de l'utilisateur.
+- role (VARCHAR(50)) : Rôle de l'utilisateur (ex : "admin", "utilisateur").
+
+**excuses**
+- id (INT, AUTO_INCREMENT) : Identifiant unique de l'excuse.
+- categorie (VARCHAR(100)) : Catégorie de l'excuse (travail, école, etc.).
+- texte (TEXT) : Texte de l'excuse générée par l'IA.
+
+**likes**
+- id (INT, AUTO_INCREMENT) : Identifiant unique du like.
+- excuse_id (INT) : Identifiant de l'excuse likée.
+- utilisateur_id (INT) : Identifiant de l'utilisateur qui a liké.
+
+**votes**
+- id (INT, AUTO_INCREMENT) : Identifiant unique du vote.
+- excuse_id (INT) : Identifiant de l'excuse votée.
+- utilisateur_id (INT) : Identifiant de l'utilisateur qui a voté.
+- vote (BOOLEAN) : Valeur du vote (1 = upvote, 0 = downvote).
+
+**justificatifs**
+- id (INT, AUTO_INCREMENT) : Identifiant unique du justificatif.
+- excuse_id (INT) : Identifiant de l'excuse liée au justificatif.
+- image_url (VARCHAR(255)) : URL de l'image générée du justificatif.
+
 ## 📜 License
 Ce projet est sous licence MIT.
