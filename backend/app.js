@@ -5,6 +5,8 @@ const mysql = require('mysql2');
 
 require('dotenv-flow').config();
 
+app.use(express.json());
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT", "DELETE");
@@ -52,7 +54,7 @@ app.get('/excuses', (req, res) => {
   });
 });
 
-// Ajouter une nouvelle excuse
+// Ajouter une nouvelle excuse (avec validation de categorie_id)
 app.post('/excuses', (req, res) => {
   const { categorie_id, texte } = req.body;
 
@@ -60,35 +62,71 @@ app.post('/excuses', (req, res) => {
       return res.status(400).send('Les champs categorie_id et texte sont obligatoires');
   }
 
-  const sql = 'INSERT INTO excuses (categorie_id, texte) VALUES (?, ?)';
-  db.query(sql, [categorie_id, texte], (err, result) => {
+  // Vérifier si la catégorie existe
+  const checkCategorySQL = 'SELECT id FROM categories WHERE id = ?';
+  db.query(checkCategorySQL, [categorie_id], (err, results) => {
       if (err) {
-          return res.status(500).send('Erreur lors de l\'ajout de l\'excuse');
+          return res.status(500).send('Erreur lors de la vérification de la catégorie');
       }
-      res.status(201).json({ id: result.insertId, categorie_id, texte });
+      if (results.length === 0) {
+          return res.status(400).send('La catégorie spécifiée n\'existe pas');
+      }
+
+      // Insérer l'excuse
+      const sql = 'INSERT INTO excuses (categorie_id, texte) VALUES (?, ?)';
+      db.query(sql, [categorie_id, texte], (err, result) => {
+          if (err) {
+              return res.status(500).send('Erreur lors de l\'ajout de l\'excuse');
+          }
+          res.status(201).json({ id: result.insertId, categorie_id, texte });
+      });
   });
 });
 
-// Mettre à jour une excuse
+// Mettre à jour une excuse (avec validation de categorie_id)
 app.put('/excuses/:id', (req, res) => {
   const { id } = req.params;
   const { categorie_id, texte } = req.body;
 
-  const sql = `
-      UPDATE excuses
-      SET categorie_id = COALESCE(?, categorie_id),
-          texte = COALESCE(?, texte)
-      WHERE id = ?`;
+  if (!categorie_id && !texte) {
+      return res.status(400).send('Au moins un champ (categorie_id ou texte) doit être fourni');
+  }
 
-  db.query(sql, [categorie_id, texte, id], (err, result) => {
-      if (err) {
-          return res.status(500).send('Erreur lors de la mise à jour de l\'excuse');
-      }
-      if (result.affectedRows === 0) {
-          return res.status(404).send('Excuse non trouvée');
-      }
-      res.json({ id, categorie_id, texte });
-  });
+  // Vérifier si la catégorie existe si elle est fournie
+  if (categorie_id) {
+      const checkCategorySQL = 'SELECT id FROM categories WHERE id = ?';
+      db.query(checkCategorySQL, [categorie_id], (err, results) => {
+          if (err) {
+              return res.status(500).send('Erreur lors de la vérification de la catégorie');
+          }
+          if (results.length === 0) {
+              return res.status(400).send('La catégorie spécifiée n\'existe pas');
+          }
+
+          // Mettre à jour l'excuse
+          updateExcuse();
+      });
+  } else {
+      updateExcuse();
+  }
+
+  function updateExcuse() {
+      const sql = `
+          UPDATE excuses
+          SET categorie_id = COALESCE(?, categorie_id),
+              texte = COALESCE(?, texte)
+          WHERE id = ?`;
+
+      db.query(sql, [categorie_id, texte, id], (err, result) => {
+          if (err) {
+              return res.status(500).send('Erreur lors de la mise à jour de l\'excuse');
+          }
+          if (result.affectedRows === 0) {
+              return res.status(404).send('Excuse non trouvée');
+          }
+          res.json({ id, categorie_id, texte });
+      });
+  }
 });
 
 // Supprimer une excuse
@@ -106,6 +144,7 @@ app.delete('/excuses/:id', (req, res) => {
       res.send(`Excuse avec l'id ${id} supprimée.`);
   });
 });
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
