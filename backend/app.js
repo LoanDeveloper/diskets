@@ -30,11 +30,11 @@ db.connect((err) => {
 });
 
 // Assurez-vous que la base de données active est définie
-db.query('USE bmazon', (err) => {
+db.query('USE diskets', (err) => {
   if (err) {
       console.error('Erreur lors de la sélection de la base de données :', err.message);
   } else {
-      console.log('Base de données active : bmazon');
+      console.log('Base de données active : diskets');
   }
 });
 
@@ -106,10 +106,6 @@ app.delete('/excuses/:id', (req, res) => {
       res.send(`Excuse avec l'id ${id} supprimée.`);
   });
 });
-
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
