@@ -145,6 +145,86 @@ app.delete('/excuses/:id', (req, res) => {
   });
 });
 
+// Obtenir toutes les catégories
+app.get('/categories', (req, res) => {
+  const sql = 'SELECT * FROM categories';
+  db.query(sql, (err, results) => {
+      if (err) {
+          return res.status(500).send('Erreur lors de la récupération des catégories');
+      }
+      res.json(results);
+  });
+});
+
+// Obtenir une catégorie par son ID
+app.get('/categories/:id', (req, res) => {
+  const { id } = req.params;
+  const sql = 'SELECT * FROM categories WHERE id = ?';
+
+  db.query(sql, [id], (err, results) => {
+      if (err) {
+          return res.status(500).send('Erreur lors de la récupération de la catégorie');
+      }
+      if (results.length === 0) {
+          return res.status(404).send('Catégorie non trouvée');
+      }
+      res.json(results[0]);
+  });
+});
+
+// Ajouter une nouvelle catégorie
+app.post('/categories', (req, res) => {
+  const { nom } = req.body;
+
+  if (!nom) {
+      return res.status(400).send('Le champ nom est obligatoire');
+  }
+
+  const sql = 'INSERT INTO categories (nom) VALUES (?)';
+  db.query(sql, [nom], (err, result) => {
+      if (err) {
+          return res.status(500).send('Erreur lors de l\'ajout de la catégorie');
+      }
+      res.status(201).json({ id: result.insertId, nom });
+  });
+});
+
+// Mettre à jour une catégorie
+app.put('/categories/:id', (req, res) => {
+  const { id } = req.params;
+  const { nom } = req.body;
+
+  if (!nom) {
+      return res.status(400).send('Le champ nom est obligatoire');
+  }
+
+  const sql = 'UPDATE categories SET nom = ? WHERE id = ?';
+  db.query(sql, [nom, id], (err, result) => {
+      if (err) {
+          return res.status(500).send('Erreur lors de la mise à jour de la catégorie');
+      }
+      if (result.affectedRows === 0) {
+          return res.status(404).send('Catégorie non trouvée');
+      }
+      res.json({ id, nom });
+  });
+});
+
+// Supprimer une catégorie
+app.delete('/categories/:id', (req, res) => {
+  const { id } = req.params;
+  const sql = 'DELETE FROM categories WHERE id = ?';
+
+  db.query(sql, [id], (err, result) => {
+      if (err) {
+          return res.status(500).send('Erreur lors de la suppression de la catégorie');
+      }
+      if (result.affectedRows === 0) {
+          return res.status(404).send('Catégorie non trouvée');
+      }
+      res.send(`Catégorie avec l'id ${id} supprimée.`);
+  });
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
