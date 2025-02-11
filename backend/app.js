@@ -454,6 +454,72 @@ app.delete('/votes/:id', (req, res) => {
   });
 });
 
+// Types 
+
+// Obtenir tous les types
+app.get('/types', (req, res) => {
+    const sql = 'SELECT * FROM types';
+    db.query(sql, (err, results) => {
+        if (err) {
+            return res.status(500).send('Erreur lors de la récupération des types');
+        }
+        res.json(results);
+    });
+});
+
+// Ajouter un nouveau type
+app.post('/types', (req, res) => {
+    const { texte } = req.body;
+
+    if (!texte || (texte !== 'absence' && texte !== 'retard')) {
+        return res.status(400).send('Le champ texte doit être "absence" ou "retard"');
+    }
+
+    const sql = 'INSERT INTO types (texte) VALUES (?)';
+    db.query(sql, [texte], (err, result) => {
+        if (err) {
+            return res.status(500).send("Erreur lors de l'ajout du type");
+        }
+        res.status(201).json({ id: result.insertId, texte });
+    });
+});
+
+// Mettre à jour un type
+app.put('/types/:id', (req, res) => {
+    const { id } = req.params;
+    const { texte } = req.body;
+
+    if (texte && texte !== 'absence' && texte !== 'retard') {
+        return res.status(400).send('Le champ texte doit être "absence" ou "retard"');
+    }
+
+    const sql = 'UPDATE types SET texte = COALESCE(?, texte) WHERE id = ?';
+    db.query(sql, [texte, id], (err, result) => {
+        if (err) {
+            return res.status(500).send("Erreur lors de la mise à jour du type");
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).send('Type non trouvé');
+        }
+        res.json({ id, texte });
+    });
+});
+
+// Supprimer un type
+app.delete('/types/:id', (req, res) => {
+    const { id } = req.params;
+    const sql = 'DELETE FROM types WHERE id = ?';
+
+    db.query(sql, [id], (err, result) => {
+        if (err) {
+            return res.status(500).send("Erreur lors de la suppression du type");
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).send('Type non trouvé');
+        }
+        res.send(`Type avec l'id ${id} supprimé.`);
+    });
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
