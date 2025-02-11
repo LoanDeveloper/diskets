@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const mysql = require("mysql2");
+const bcrypt = require("bcryptjs");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -51,15 +52,27 @@ app.get("/api/users/:id", (req, res) => {
     });
 });
 
-app.post("/api/users", (req, res) => {
-    const { password, email } = req.body;
+app.post("/api/users", async (req, res) => {
     
-    db.query("INSERT INTO users (password, email) VALUES (?, ?)", [password, email], (err, result) => {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        res.status(201).json({ id: result.insertId, password, email });
-    });
+    const { password, email } = req.body;
+
+    if (!password || !email) {
+        return res.status(400).json({ error: "Email et mot de passe requis" });
+    }
+
+    try {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        db.query("INSERT INTO users (password, email) VALUES (?, ?)", [hashedPassword, email], (err, result) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+            res.status(201).json({ id: result.insertId, email });
+        });
+    } catch (error) {
+        res.status(500).json({ error: "Erreur lors du hachage du mot de passe" });
+    }
 });
 
 // app.put("/api/users/:id", (req, res) => {
