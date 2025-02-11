@@ -1,9 +1,9 @@
--- Création de la table users
+-- Création de la table users avec un rôle par défaut "utilisateur"
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    role VARCHAR(50) NOT NULL DEFAULT 'utilisateur' CHECK (role IN ('admin', 'utilisateur'))
+    role ENUM('admin', 'utilisateur') NOT NULL DEFAULT 'utilisateur'
 );
 
 -- Création de la table categories
