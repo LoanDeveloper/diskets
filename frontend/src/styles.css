@@ -1,0 +1,107 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #fff;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.app-container {
+    width: 90%;
+    max-width: 600px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease-in-out;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.select-container {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Aligne tous les éléments au centre verticalement */
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.select-box {
+    width: 180px;
+    height: 40px;
+    padding: 0;
+    margin: 0;
+    border-radius: 8px;
+    border: 2px solid black;
+    font-size: 13px;
+    background: #fefefe;
+    color: #333;
+    outline: none;
+    transition: 0.3s;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+    appearance: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+.select-box:hover, .select-box:focus {
+    border-color: #22C4D2;
+    box-shadow: 2px 2px 12px rgba(34, 196, 210, 0.5);
+}
+
+.generate-button {
+    padding: 10px 18px;
+    background: #fefefe;
+    color: #333;
+    border: 2px solid black;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 0; /* Supprimer l'écart supérieur */
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+    align-self: center; /* S'assurer que le bouton est centré */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.generate-button:hover {
+    border-color: #22C4D2;
+    box-shadow: 2px 2px 12px rgba(34, 196, 210, 0.5);
+}
+
+.excuse-list {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.excuse-item {
+    background: #fefefe;
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    border: 2px solid black;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.excuse-item:hover {
+    border-color: #22C4D2;
+    box-shadow: 2px 2px 12px rgba(34, 196, 210, 0.5);
+}
