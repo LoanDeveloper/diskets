@@ -14,6 +14,8 @@ app.use((req, res, next) => {
   next();
 })
 
+
+
 // MySQL Connection
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -22,7 +24,6 @@ const db = mysql.createConnection({
   database: process.env.DB_NAME,
 });
 
-// Connect to MySQL
 db.connect((err) => {
   if (err) {
     console.error('Error connecting to MySQL: ' + err.stack);
@@ -45,7 +46,6 @@ db.query('USE diskets', (err) => {
 
 // Excuses
 
-// Obtenir toutes les excuses
 app.get('/excuses', (req, res) => {
   const sql = 'SELECT * FROM excuses';
   db.query(sql, (err, results) => {
@@ -131,7 +131,6 @@ app.put('/excuses/:id', (req, res) => {
   }
 });
 
-// Supprimer une excuse
 app.delete('/excuses/:id', (req, res) => {
   const { id } = req.params;
   const sql = 'DELETE FROM excuses WHERE id = ?';
@@ -524,3 +523,5 @@ app.delete('/types/:id', (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
+
