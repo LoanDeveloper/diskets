@@ -46,10 +46,12 @@ h1 {
     font-size: 32px;
     margin-bottom: -5px;
     font-weight: 600;
+    color: #000;
 }
 
 p {
     margin-bottom: 30px;
+    color: #000;
 }
 
 .select-container {

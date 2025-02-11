@@ -50,11 +50,11 @@ const Home = () => {
             
 
             {(category && reason && isGenerating) && (
-                <>
+                <div className="excuse-list">
                     <ExcuseItem category={category} reason={reason} isGenerating={isGenerating}/>
                     <ExcuseItem category={category} reason={reason} isGenerating={isGenerating}/>
                     <ExcuseItem category={category} reason={reason} isGenerating={isGenerating}/>
-                </>
+                </div>
             )}
                 
         
