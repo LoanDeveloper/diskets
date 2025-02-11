@@ -1,7 +1,24 @@
 .home-container {
     background-color: #fefefe;
     padding: 25px;
-    border-radius: 15px;
+    border-radius: 0 0 15px 15px;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+.main-header {
+    display: flex;
+    gap: 12px;
+    flex-direction: column;
+    padding: 25px;
+}
+
+.main-header h1, .main-header p {
+    margin: 0;
 }
 
 body {
@@ -23,7 +40,6 @@ body {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 15px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    padding: 15px;
 }
 
 h1 {
