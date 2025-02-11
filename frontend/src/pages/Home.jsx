@@ -2,21 +2,18 @@ import React, { useState } from "react";
 import SelectCategory from "../components/SelectCategory";
 import SelectReason from "../components/SelectReason";
 import ExcuseList from "../components/ExcuseList";
-import { fetchExcuses } from "../services/api";
+
+import ExcuseItem from "../components/ExcuseItem"
 
 const Home = () => {
     const [category, setCategory] = useState("");
     const [reason, setReason] = useState("");
-    const [excuses, setExcuses] = useState([]);
+
     const [isGenerating, setIsGenerating] = useState(false);
 
-    const handleGenerate = async () => {
+    const handleGenerate =  () => {
         if (category && reason) {
             setIsGenerating(true);
-            setExcuses([]); 
-            const generatedExcuses = await fetchExcuses(category, reason);
-            setExcuses(generatedExcuses);
-            setIsGenerating(false);
         }
     };
 
@@ -27,7 +24,7 @@ const Home = () => {
             <div className="select-container">
                 <SelectCategory onSelect={setCategory} />
                 <SelectReason onSelect={setReason} />
-                <button className="generate-button" onClick={handleGenerate}>
+                <button className="generate-button" onClick={()=> handleGenerate()}>
                     {isGenerating ? (
                         <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
                             <rect x="6" y="6" width="12" height="12" />
@@ -39,17 +36,17 @@ const Home = () => {
                     )}
                 </button>
             </div>
+            
 
-            {}
-            {isGenerating ? (
-                <div className="excuse-list">
-                    {[...Array(5)].map((_, index) => (
-                        <div key={index} className="skeleton"></div>
-                    ))}
-                </div>
-            ) : (
-                <ExcuseList excuses={excuses} />
+            {(category && reason && isGenerating) && (
+                <>
+                    <ExcuseItem category={category} reason={reason} isGenerating={isGenerating}/>
+                    <ExcuseItem category={category} reason={reason} isGenerating={isGenerating}/>
+                    <ExcuseItem category={category} reason={reason} isGenerating={isGenerating}/>
+                </>
             )}
+                
+        
         </div>
     );    
 };
