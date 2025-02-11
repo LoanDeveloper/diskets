@@ -1,3 +1,9 @@
+.home-container {
+    background-color: #fefefe;
+    padding: 25px;
+    border-radius: 15px;
+}
+
 body {
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg, #667eea, #764ba2);
@@ -12,59 +18,94 @@ body {
 }
 
 .app-container {
-    width: 90%;
-    max-width: 600px;
+    width: 100%;
+    max-width: 700px;
     background: rgba(255, 255, 255, 0.1);
-    padding: 30px;
     border-radius: 15px;
-    backdrop-filter: blur(10px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s ease-in-out;
+    padding: 15px;
 }
 
 h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 32px;
+    margin-bottom: -5px;
     font-weight: 600;
+}
+
+p {
+    margin-bottom: 30px;
 }
 
 .select-container {
     display: flex;
-    justify-content: center;
-    align-items: center; 
-    gap: 10px;
-    margin-bottom: 15px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 20px;
+}
+
+.select-box-container {
+    position: relative;
+    width: 180px;
+    text-align: left;
+    cursor: pointer;
 }
 
 .select-box {
-    width: 200px;
-    height: 40px;
-    border-radius: 8px;
-    border: 2px solid black;
-    font-size: 13px;
+    padding: 12px;
     background: #fefefe;
-    color: #333;
-    outline: none;
-    transition: 0.3s;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
-    appearance: none;
-    cursor: pointer;
-    text-align: center;
-    padding-right: 30px;
-    position: relative;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path fill="%23333" d="M7 10l5 5 5-5z"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 14px;
+    color: #000;
+    border-radius: 8px;
+    font-size: 14px;
+    text-align: left;
+    border: 2px solid #000;
 }
 
-.select-box:hover, .select-box:focus {
-    border-color: #22C4D2;
-    box-shadow: 2px 2px 12px rgba(34, 196, 210, 0.5);
+.select-group {
+    display: flex;
+    gap: 10px;
+}
+
+.select-container .generate-button {
+    margin-left: auto;
+}
+
+.arrow {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+}
+
+.options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #fefefe;
+    border-radius: 8px;
+    border: 2px solid black;
+    margin-top: 5px;
+    z-index: 10;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.option {
+    padding: 12px;
+    cursor: pointer;
+    text-align: left;
+    color: black;
+    font-size: 13px;
+    border-radius: 8px;
+}
+
+.option:hover {
+    background-color: #e0e0e0;
 }
 
 .generate-button {
-    padding: 12px 12px;
+    padding: 15px;
     background: #000;
     color: #fefefe;
     border: 2px solid black;
@@ -72,12 +113,17 @@ h1 {
     font-size: 14px;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-top: 0; 
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
-    align-self: center; 
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.generate-button svg {
+    width: 16px;
+    height: 16px;
+    transform: scale(1.4);
+    fill: white;
 }
 
 .generate-button:hover {
@@ -86,51 +132,15 @@ h1 {
     box-shadow: 2px 2px 12px rgba(50, 50, 50, 0.5);
 }
 
-.icon {
-    width: 18px;
-    height: 18px;
-}
-
-.square-icon {
-    width: 10px;
-    height: 10px;
-    background-color: white;
-}
-
-.excuse-list {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-}
-
-.excuse-item {
-    padding: 15px;
-    font-size: 14px;
-    font-weight: 500;
-    color: #fff;
-    cursor: pointer;
-    border-bottom: 1px solid white;
-    transition: transform 0.2s;
-}
-
-.excuse-item:first-child {
-    border-top: 1px solid white;
-}
-
-.excuse-item:hover {
-    transform: scale(1.05);
-    font-size: 15px;
-}
-
+/*
 .skeleton {
     width: 100%;
-    height: 20px;
+    height: 35px;
     background: linear-gradient(90deg, #ccc 25%, #ddd 50%, #ccc 75%);
     background-size: 200% 100%;
     animation: loading 1.5s infinite linear;
     border-radius: 4px;
-    margin: 8px 0;
+    margin: 10px 0;
 }
 
 @keyframes loading {
@@ -140,5 +150,27 @@ h1 {
     100% {
         background-position: -200% 0;
     }
+}
+*/
+
+.excuse-list {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.excuse-item {
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #000;
+    cursor: pointer;
+    border-bottom: 1px solid #000;
+    transition: transform 0.2s;
+}
+
+.excuse-item:first-child {
+    border-top: 1px solid #000;
 }
 

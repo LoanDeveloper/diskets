@@ -21,29 +21,28 @@ const Home = () => {
     };
 
     return (
-        <div className="home-container">
+        <div>
             <h1>Diskets</h1>
             <p>Tu ne sais pas quoi inventer comme excuse ? Nous sommes là pour ça !</p>
+        <div className="home-container">
             <div className="select-container">
                 <SelectCategory onSelect={setCategory} />
                 <SelectReason onSelect={setReason} />
                 <button className="generate-button" onClick={handleGenerate}>
                     {isGenerating ? (
-                        <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
-                            <rect x="6" y="6" width="12" height="12" />
+                        <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <rect x="6" y="6" width="13" height="13" />
                         </svg>
                     ) : (
-                        <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
+                        <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <path d="M12 4l-8 8h6v8h4v-8h6z" />
                         </svg>
                     )}
                 </button>
             </div>
-
-            {}
             {isGenerating ? (
                 <div className="excuse-list">
-                    {[...Array(5)].map((_, index) => (
+                    {[...Array(3)].map((_, index) => (
                         <div key={index} className="skeleton"></div>
                     ))}
                 </div>
@@ -51,7 +50,8 @@ const Home = () => {
                 <ExcuseList excuses={excuses} />
             )}
         </div>
-    );    
+        </div>
+    );
 };
 
 export default Home;
