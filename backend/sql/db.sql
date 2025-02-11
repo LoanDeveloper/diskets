@@ -1,7 +1,3 @@
--- Création de la base de données
-CREATE DATABASE IF NOT EXISTS diskets;
-USE diskets;
-
 -- Création de la table users
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
