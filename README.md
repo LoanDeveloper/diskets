@@ -31,9 +31,14 @@ Les excuses sont classées par catégorie, et les utilisateurs peuvent interagir
 - id (INT, AUTO_INCREMENT) : Identifiant unique de la catégorie.
 - nom (VARCHAR(100)) : Nom de la catégorie (ex : travail, école, etc.).
 
+**Types**
+- id (INT, AUTO_INCREMENT) : Identifiant unique du type.
+- nom (VARCHAR(100)) : Nom du type (ex : absence, retard, excuse générale).
+
 **Excuses**
 - id (INT, AUTO_INCREMENT) : Identifiant unique de l'excuse.
 - categorie_id (INT) : Identifiant de la catégorie à laquelle l'excuse appartient.
+- type_id (INT) : Identifiant du type d'excuse.
 - texte (TEXT) : Texte de l'excuse générée par l'IA.
 
 **Likes**

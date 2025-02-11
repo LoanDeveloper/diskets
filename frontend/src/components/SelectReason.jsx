@@ -1,15 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 
 const SelectReason = ({ onSelect }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedOption, setSelectedOption] = useState("");
+
+    const handleSelect = (value) => {
+        setSelectedOption(value);
+        onSelect(value);
+        setIsOpen(false);
+    };
+
     return (
-        <select className="select-box" onChange={(e) => onSelect(e.target.value)}>
-            <option value="">Sélectionner une raison</option>
-            <option value="famille">Famille</option>
-            <option value="amis">Amis</option>
-            <option value="ecole">École</option>
-            <option value="travail">Travail</option>
-            <option value="divers">Divers</option>
-        </select>
+        <div className="select-box-container">
+            <div className="select-box" onClick={() => setIsOpen(!isOpen)}>
+                {selectedOption || "Quelle raison ?"}
+                <span className="arrow">▼</span>
+            </div>
+            {isOpen && (
+                <div className="options">
+                    {["famille", "amis", "ecole", "travail", "divers"].map((option) => (
+                        <div key={option} className="option" onClick={() => handleSelect(option)}>
+                            {option.charAt(0).toUpperCase() + option.slice(1)}
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
     );
 };
 
