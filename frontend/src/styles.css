@@ -1,7 +1,7 @@
 .home-container {
     background-color: #fefefe;
     padding: 25px;
-    border-radius: 0 0 15px 15px;
+    border-radius: 15px;
 }
 
 .main {
@@ -175,8 +175,19 @@ p {
     margin-top: 20px;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
 }
+
+.excuse-item-container {
+    background-color: #EDEDED;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: auto;
+    width: 100%;
+}
+
 
 .excuse-item {
     padding: 12px;
@@ -184,11 +195,17 @@ p {
     font-weight: 500;
     color: #000;
     cursor: pointer;
-    border-bottom: 1px solid #000;
     transition: transform 0.2s;
+    width: 75%;
 }
 
-.excuse-item:first-child {
-    border-top: 1px solid #000;
+.copy-button {
+    width: 30px;
+    height: 30px;
+    border: none;
+    cursor: pointer;
 }
 
+.copy-button:hover {
+    background-color: transparent;
+}
