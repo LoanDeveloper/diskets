@@ -8,6 +8,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(cors())
+app.use(express.json())
 
 
 const mistral = new Mistral({
@@ -220,6 +221,7 @@ const db = mysql.createConnection({
   
   // Ajouter une nouvelle catégorie
   app.post('/categories', (req, res) => {
+    console.log(req)
     const { nom } = req.body;
   
     if (!nom) {

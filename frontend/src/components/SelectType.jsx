@@ -17,7 +17,7 @@ const SelectType = ({ onSelect }) => {
         };
 
         fetchTypes();
-    }, []);
+    }, [isOpen]);
 
     const handleSelect = (value) => {
         setSelectedOption(value);

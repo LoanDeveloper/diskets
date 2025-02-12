@@ -11,19 +11,21 @@ const SelectCategorie = ({ onSelect }) => {
                 const response = await fetch("http://localhost:3000/categories");
                 const data = await response.json();
                 setCategories(data.map(item => item.nom));
+
             } catch (error) {
                 console.error("Erreur lors de la récupération des catégories", error);
             }
         };
 
         fetchCategories();
-    }, []);
+    }, [isOpen]);
 
     const handleSelect = (value) => {
         setSelectedOption(value);
         onSelect(value);
         setIsOpen(false);
     };
+
 
     return (
         <div className="select-box-container">
@@ -33,7 +35,7 @@ const SelectCategorie = ({ onSelect }) => {
             </div>
             {isOpen && (
                 <div className="options">
-                    {categories.map((category) => (
+                    {categories?.map((category) => (
                         <div key={category} className="option" onClick={() => handleSelect(category)}>
                             {category.charAt(0).toUpperCase() + category.slice(1)}
                         </div>
