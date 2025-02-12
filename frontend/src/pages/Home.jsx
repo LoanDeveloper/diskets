@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import SelectCategory from "../components/SelectCategory";
-import SelectReason from "../components/SelectReason";
-import ExcuseList from "../components/ExcuseList";
-
+import SelectType from "../components/SelectType";
+import SelectCategorie from "../components/SelectCategorie";
 import ExcuseItem from "../components/ExcuseItem"
 
 const Home = () => {
@@ -33,8 +31,8 @@ const Home = () => {
             <h1>Diskets</h1>
             <p>Tu ne sais pas quoi inventer comme excuse ? Nous sommes là pour ça !</p>
             <div className="select-container">
-                <SelectCategory  onSelect={handleCategoryChange} />
-                <SelectReason onSelect={handleReasonChange} />
+                <SelectType onSelect={handleCategoryChange} />
+                <SelectCategorie onSelect={handleReasonChange} />
                 <button className="generate-button" onClick={()=> handleGenerate()}>
                     {isGenerating ? (
                         <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">

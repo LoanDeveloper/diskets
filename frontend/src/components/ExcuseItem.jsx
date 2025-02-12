@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { ClipboardDocumentCheckIcon, CheckIcon } from "@heroicons/react/24/solid";
 
 const ExcuseItem = ({ category, reason }) => {
     const [excuse, setExcuse] = useState("");
+    const [copied, setCopied] = useState(false);
 
     useEffect(() => {
-        setExcuse("")
+        setExcuse("");
+        setCopied(false);
         if (!category || !reason) return;
 
         const evtSource = new EventSource(`http://localhost:3000/api/escuses?categorie=${category}&type=${reason}`);
@@ -33,11 +36,25 @@ const ExcuseItem = ({ category, reason }) => {
         };
     }, [category, reason]);
 
-    const handleSave = () => {
-        console.log("Excuse enregistrée:", excuse);
+    const handleCopy = async () => {
+        try {
+            await navigator.clipboard.writeText(excuse);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        } catch (err) {
+            console.error("Erreur lors de la copie", err);
+        }
     };
 
-    return <div className="excuse-item" onClick={handleSave}>{excuse}</div>;
+    return (
+        <div className="excuse-item-container">
+            <div className="excuse-item">{excuse}</div>
+            <button onClick={handleCopy} disabled={!excuse} className="copy-button">
+                <span>{copied ? <CheckIcon className="h-6 w-6 text-gray-500" /> : <ClipboardDocumentCheckIcon className="h-6 w-6 text-gray-500" />}</span>
+            </button>
+        </div>
+    );
 };
+
 
 export default ExcuseItem;

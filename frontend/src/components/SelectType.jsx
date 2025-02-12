@@ -1,8 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const SelectReason = ({ onSelect }) => {
+const SelectType = ({ onSelect }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState("");
+    const [types, setTypes] = useState([]);
+
+    useEffect(() => {
+        const fetchTypes = async () => {
+            try {
+                const response = await fetch("http://localhost:3000/types");
+                const data = await response.json();
+                setTypes(data.map(type => type.texte));
+            } catch (error) {
+                console.error("Erreur lors de la récupération des types", error);
+            }
+        };
+
+        fetchTypes();
+    }, []);
 
     const handleSelect = (value) => {
         setSelectedOption(value);
@@ -13,12 +28,12 @@ const SelectReason = ({ onSelect }) => {
     return (
         <div className="select-box-container">
             <div className="select-box" onClick={() => setIsOpen(!isOpen)}>
-                {selectedOption || "Quelle raison ?"}
+                {selectedOption || "Quel type ?"}
                 <span className="arrow">▼</span>
             </div>
             {isOpen && (
                 <div className="options">
-                    {["famille", "amis", "ecole", "travail", "divers"].map((option) => (
+                    {types.map((option) => (
                         <div key={option} className="option" onClick={() => handleSelect(option)}>
                             {option.charAt(0).toUpperCase() + option.slice(1)}
                         </div>
@@ -29,4 +44,4 @@ const SelectReason = ({ onSelect }) => {
     );
 };
 
-export default SelectReason;
+export default SelectType;
