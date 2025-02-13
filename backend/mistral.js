@@ -232,17 +232,18 @@ const db = mysql.createConnection({
   
   // Ajouter une nouvelle catégorie
   app.post('/categories', (req, res) => {
-    console.log(req)
     const { nom } = req.body;
   
     if (!nom) {
-        return res.status(400).send('Le champ nom est obligatoire');
+        return res.status(400).json({ error: "Le champ nom est obligatoire"});
+
     }
   
     const sql = 'INSERT INTO categories (nom) VALUES (?)';
     db.query(sql, [nom], (err, result) => {
         if (err) {
-            return res.status(500).send('Erreur lors de l\'ajout de la catégorie');
+            return res.status(400).json({ error: "Erreur lors de l\'ajout de la catégorie"});
+            
         }
         res.status(201).json({ id: result.insertId, nom });
     });
@@ -385,18 +386,18 @@ const db = mysql.createConnection({
   
   // Ajouter un like
   app.post('/likes', (req, res) => {
-    const { excuse_id, utilisateur_id } = req.body;
+    const { excuse_id } = req.body;
   
-    if (!excuse_id || !utilisateur_id) {
-        return res.status(400).send('Les champs excuse_id et utilisateur_id sont obligatoires');
+    if (!excuse_id ) {
+        return res.status(400).send('Les champs excuse_id sont obligatoires');
     }
   
-    const sql = 'INSERT INTO likes (excuse_id, utilisateur_id) VALUES (?, ?)';
-    db.query(sql, [excuse_id, utilisateur_id], (err, result) => {
+    const sql = 'INSERT INTO likes (excuse_id) VALUES (?)';
+    db.query(sql, [excuse_id], (err, result) => {
         if (err) {
             return res.status(500).send('Erreur lors de l\'ajout du like');
         }
-        res.status(201).json({ id: result.insertId, excuse_id, utilisateur_id });
+        res.status(201).json({ id: result.insertId, excuse_id });
     });
   });
   

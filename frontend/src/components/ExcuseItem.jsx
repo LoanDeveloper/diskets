@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ClipboardDocumentCheckIcon, CheckIcon } from "@heroicons/react/24/solid";
 import { Modal, Box, Typography, Button } from "@mui/material";
 
-const ExcuseItem = ({ category, reason }) => {
+const ExcuseItem = ({ category, type }) => {
     const [excuse, setExcuse] = useState("");
     const [copied, setCopied] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -11,9 +11,9 @@ const ExcuseItem = ({ category, reason }) => {
     useEffect(() => {
         setExcuse("");
         setCopied(false);
-        if (!category || !reason) return;
+        if (!category || !type) return;
 
-        const evtSource = new EventSource(`http://localhost:3000/api/escuses?categorie=${category?.texte}&type=${reason?.nom}`);
+        const evtSource = new EventSource(`http://localhost:3000/api/escuses?categorie=${category}&type=${type}`);
 
         evtSource.onmessage = (event) => {
             if (event.data === "[DONE]") {
@@ -37,7 +37,7 @@ const ExcuseItem = ({ category, reason }) => {
         return () => {
             evtSource.close(); 
         };
-    }, [category, reason]);
+    }, [category, type]);
 
     const handleCopy = async () => {
         try {
@@ -49,36 +49,11 @@ const ExcuseItem = ({ category, reason }) => {
         }
     };
 
-    const handleSaveExcuse = async() =>{
-        setIsLoading(true)
-        try {
-            const response = await fetch("http://localhost:3000/excuses", {
-                method: "POST",
-                headers: { 
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    "texte": excuse,
-                    "type_id": category?.id,
-                    "categorie_id": reason?.id
-                }),
-                });
-                if (response.ok) {
-                    setOpenModal(true);
-                }
-            const data = await response.json();
-        } catch (error) {
-            console.error("Erreur lors de la récupération des types", error);
-        }
-        setIsLoading(false)
-    }
+    
 
     return (
         <div className="excuse-item-container">
             <div className="excuse-item">{excuse}</div>
-            <button onClick={handleSaveExcuse} disabled={isLoading}>
-                Enregistrer
-            </button>
             <button onClick={handleCopy} disabled={!excuse} className="copy-button">
                 <span>{copied ? <CheckIcon className="h-6 w-6 text-gray-500" /> : <ClipboardDocumentCheckIcon className="h-6 w-6 text-gray-500" />}</span>
             </button>

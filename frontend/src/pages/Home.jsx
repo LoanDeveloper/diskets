@@ -2,27 +2,30 @@ import React, { useEffect, useState } from "react";
 import SelectType from "../components/SelectType";
 import SelectCategorie from "../components/SelectCategorie";
 import ExcuseItem from "../components/ExcuseItem"
+import AddCategorieModal from "../components/AddCategorieModal";
 
 const Home = () => {
     const [category, setCategory] = useState({});
-    const [reason, setReason] = useState({});
+    const [type, setType] = useState({});
+
+    const [showAddCategorieModal, setShowAddCategorieModal] = useState(false);
 
     const [isGenerating, setIsGenerating] = useState(false);
 
 
     const handleGenerate =  () => {
-        if (category && reason) {
+        if (category && type) {
             setIsGenerating(true);
         }
     };
 
-    const handleCategoryChange = (newCategory) => {
-        setCategory(newCategory);
+    const handleTypeChange = (type) => {
+        setType(type);
         setIsGenerating(false);
     };
 
-    const handleReasonChange = (newReason) => {
-        setReason(newReason);
+    const handleCategorieChange = (categorie) => {
+        setCategory(categorie);
         setIsGenerating(false);
     };
 
@@ -31,8 +34,10 @@ const Home = () => {
             <h1>Diskets</h1>
             <p>Tu ne sais pas quoi inventer comme excuse ? Nous sommes là pour ça !</p>
             <div className="select-container">
-                <SelectType onSelect={handleCategoryChange} />
-                <SelectCategorie onSelect={handleReasonChange} />
+                <div id="input-select">
+                    <SelectType onSelect={handleTypeChange} />
+                    <SelectCategorie onSelect={handleCategorieChange} />
+                </div>
                 <button className="generate-button" onClick={()=> handleGenerate()}>
                     {isGenerating ? (
                         <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
@@ -47,15 +52,15 @@ const Home = () => {
             </div>
             
 
-            {(category && reason && isGenerating) && (
+            {(category && type && isGenerating) && (
                 <div className="excuse-list">
-                    <ExcuseItem category={category} reason={reason} isGenerating={isGenerating}/>
-                    <ExcuseItem category={category} reason={reason} isGenerating={isGenerating}/>
-                    <ExcuseItem category={category} reason={reason} isGenerating={isGenerating}/>
+                    <ExcuseItem category={category} type={type} isGenerating={isGenerating}/>
+                    <ExcuseItem category={category} type={type} isGenerating={isGenerating}/>
+                    <ExcuseItem category={category} type={type} isGenerating={isGenerating}/>
                 </div>
             )}
                 
-        
+            <AddCategorieModal openModal={showAddCategorieModal} closeModal={() => setShowAddCategorieModal(false)}/>
         </div>
     );
 };
