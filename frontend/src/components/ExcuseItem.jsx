@@ -76,7 +76,7 @@ const ExcuseItem = ({ category, type }) => {
     return (
         <div className="excuse-item-container">
             <div className="excuse-item">{excuse}</div>
-            <button onClick={handleSaveExcuse} disabled={isLoading}>
+            <button className="button-secondary" onClick={handleSaveExcuse} disabled={isLoading}>
                 Enregistrer
             </button>
             <button onClick={handleCopy} disabled={!excuse} className="copy-button">
@@ -101,7 +101,8 @@ const ExcuseItem = ({ category, type }) => {
                         boxShadow: 24,
                         p: 4,
                         borderRadius: 2,
-                        textAlign: "center"
+                        textAlign: "center",
+                        color: "black"
                     }}
                 >
                     <Typography id="modal-title" variant="h6" component="h2">

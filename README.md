@@ -8,15 +8,13 @@ Les excuses sont classées par catégorie, et les utilisateurs peuvent interagir
 - Frontend : React 
 - Backend : Express.js
 - Base de données : MySQL
-- Authentification : JWT + bcrypt
 - IA : API Mistral
 
 ## 🎯 Fonctionnalités
 
-- 🔐 Gestion d'utilisateurs sécurisée avec JWT et bcrypt
 - 🤖 Génération d'excuses IA classées par catégories (travail, école, famille...)
 - 👍👎 Upvote / Downvote des excuses pour les classer
-- ❤️ Likes d'excuses pour sauvegarder ses favorites
+- Enregistrer des excuses ses favorites
 - 📜 Génération d'images de faux justificatifs (option bonus)
 
 ## 📚 Base de Données
@@ -32,8 +30,8 @@ Les excuses sont classées par catégorie, et les utilisateurs peuvent interagir
 
 **Excuses**
 - id (INT, AUTO_INCREMENT) : Identifiant unique de l'excuse.
-- categorie_id (INT) : Identifiant de la catégorie à laquelle l'excuse appartient.
-- type_id (INT) : Identifiant du type d'excuse.
+- categorie (VARCHAR) : Identifiant de la catégorie à laquelle l'excuse appartient.
+- type (VARCHAR) : Identifiant du type d'excuse.
 - texte (TEXT) : Texte de l'excuse générée par l'IA.
 
 **Likes**
@@ -53,3 +51,15 @@ Les excuses sont classées par catégorie, et les utilisateurs peuvent interagir
 
 ## 📜 License
 Ce projet est sous licence MIT.
+
+### Lancer le serveur backend  
+```bash
+cd backend
+npm run mistral
+```
+
+### Lancer le frontend
+```bash
+cd frontend
+npm run dev
+```
