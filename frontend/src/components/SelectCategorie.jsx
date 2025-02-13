@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 const SelectCategorie = ({ onSelect }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState("");
+    const [selectedOption, setSelectedOption] = useState(null);
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
@@ -10,8 +10,7 @@ const SelectCategorie = ({ onSelect }) => {
             try {
                 const response = await fetch("http://localhost:3000/categories");
                 const data = await response.json();
-                setCategories(data.map(item => item.nom));
-
+                setCategories(data);
             } catch (error) {
                 console.error("Erreur lors de la récupération des catégories", error);
             }
@@ -26,18 +25,21 @@ const SelectCategorie = ({ onSelect }) => {
         setIsOpen(false);
     };
 
-
     return (
         <div className="select-box-container">
             <div className="select-box" onClick={() => setIsOpen(!isOpen)}>
-                {selectedOption || "Quelle catégorie ?"}
+                {selectedOption?.nom || "Quelle catégorie ?"}
                 <span className="arrow">▼</span>
             </div>
             {isOpen && (
                 <div className="options">
                     {categories?.map((category) => (
-                        <div key={category} className="option" onClick={() => handleSelect(category)}>
-                            {category.charAt(0).toUpperCase() + category.slice(1)}
+                        <div 
+                            key={category?.id} 
+                            className="option" 
+                            onClick={() => handleSelect(category)}
+                        >
+                            {category?.nom.charAt(0).toUpperCase() + category.nom.slice(1)}
                         </div>
                     ))}
                 </div>
