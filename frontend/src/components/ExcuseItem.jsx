@@ -49,14 +49,40 @@ const ExcuseItem = ({ category, type }) => {
         }
     };
 
-    
+    const handleSaveExcuse = async() =>{
+        setIsLoading(true)
+        try {
+            const response = await fetch("http://localhost:3000/excuses", {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "texte": excuse,
+                    "type": type,
+                    "categorie": category
+                }),
+                });
+                if (response.ok) {
+                    setOpenModal(true);
+                }
+            const data = await response.json();
+        } catch (error) {
+            console.error("Erreur lors de la récupération des types", error);
+        }
+        setIsLoading(false)
+    }
 
     return (
         <div className="excuse-item-container">
             <div className="excuse-item">{excuse}</div>
+            <button onClick={handleSaveExcuse} disabled={isLoading}>
+                Enregistrer
+            </button>
             <button onClick={handleCopy} disabled={!excuse} className="copy-button">
                 <span>{copied ? <CheckIcon className="h-6 w-6 text-gray-500" /> : <ClipboardDocumentCheckIcon className="h-6 w-6 text-gray-500" />}</span>
             </button>
+
 
             <Modal
                 open={openModal}
