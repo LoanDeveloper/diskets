@@ -8,6 +8,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(cors())
+app.use(express.json())
 
 
 const mistral = new Mistral({
@@ -101,10 +102,10 @@ const db = mysql.createConnection({
   
   // Ajouter une nouvelle excuse (avec validation de categorie_id)
   app.post('/excuses', (req, res) => {
-    const { categorie_id, texte } = req.body;
+    const { type_id ,categorie_id, texte } = req.body;
   
-    if (!categorie_id || !texte) {
-        return res.status(400).send('Les champs categorie_id et texte sont obligatoires');
+    if (!categorie_id || !texte || !type_id) {
+        return res.status(400).send('Les champs categorie_id et texte et type_id sont obligatoires');
     }
   
     // Vérifier si la catégorie existe
@@ -116,17 +117,28 @@ const db = mysql.createConnection({
         if (results.length === 0) {
             return res.status(400).send('La catégorie spécifiée n\'existe pas');
         }
-  
-        // Insérer l'excuse
-        const sql = 'INSERT INTO excuses (categorie_id, texte) VALUES (?, ?)';
-        db.query(sql, [categorie_id, texte], (err, result) => {
-            if (err) {
-                return res.status(500).send('Erreur lors de l\'ajout de l\'excuse');
-            }
-            res.status(201).json({ id: result.insertId, categorie_id, texte });
-        });
     });
-  });
+
+    const checkTypeSQL = 'SELECT id FROM types WHERE id = ?';
+
+    db.query(checkTypeSQL, [type_id], (err, results) => {
+        if (err) {
+            return res.status(500).send('Erreur lors de la vérification du type');
+        }
+        if (results.length === 0) {
+            return res.status(400).send('Le type_id spécifiée n\'existe pas');
+        }
+    });
+  
+    // Insérer l'excuse
+    const sql = 'INSERT INTO excuses (categorie_id, type_id, texte) VALUES (?, ?, ?)';
+    db.query(sql, [categorie_id, type_id, texte], (err, result) => {
+        if (err) {
+            return res.status(500).send('Erreur lors de l\'ajout de l\'excuse');
+        }
+        res.status(201).json({ id: result.insertId, categorie_id, texte });
+    });
+});
   
   // Mettre à jour une excuse (avec validation de categorie_id)
   app.put('/excuses/:id', (req, res) => {
@@ -220,6 +232,7 @@ const db = mysql.createConnection({
   
   // Ajouter une nouvelle catégorie
   app.post('/categories', (req, res) => {
+    console.log(req)
     const { nom } = req.body;
   
     if (!nom) {
@@ -271,7 +284,7 @@ const db = mysql.createConnection({
         res.send(`Catégorie avec l'id ${id} supprimée.`);
     });
   });
-  
+
   // Justificatifs 
   
   // Obtenir tous les justificatifs

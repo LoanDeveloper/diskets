@@ -4,8 +4,8 @@ import SelectCategorie from "../components/SelectCategorie";
 import ExcuseItem from "../components/ExcuseItem"
 
 const Home = () => {
-    const [category, setCategory] = useState("");
-    const [reason, setReason] = useState("");
+    const [category, setCategory] = useState({});
+    const [reason, setReason] = useState({});
 
     const [isGenerating, setIsGenerating] = useState(false);
 

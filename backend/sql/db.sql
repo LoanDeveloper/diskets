@@ -1,11 +1,3 @@
--- Création de la table users avec un rôle par défaut "utilisateur"
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    role ENUM('admin', 'utilisateur') NOT NULL DEFAULT 'utilisateur'
-);
-
 -- Création de la table categories
 CREATE TABLE categories (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -15,7 +7,8 @@ CREATE TABLE categories (
 -- Création de la table types (absence, retard)
 CREATE TABLE types (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    texte ENUM('absence', 'retard') NOT NULL UNIQUE
+    texte ENUM('absence', 'retard') NOT NULL,
+    UNIQUE(texte) -- Contrainte UNIQUE correctement ajoutée
 );
 
 -- Création de la table excuses
@@ -32,19 +25,15 @@ CREATE TABLE excuses (
 CREATE TABLE likes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     excuse_id INT NOT NULL,
-    utilisateur_id INT NOT NULL,
-    FOREIGN KEY (excuse_id) REFERENCES excuses(id) ON DELETE CASCADE,
-    FOREIGN KEY (utilisateur_id) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (excuse_id) REFERENCES excuses(id) ON DELETE CASCADE
 );
 
 -- Création de la table votes
 CREATE TABLE votes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     excuse_id INT NOT NULL,
-    utilisateur_id INT NOT NULL,
     vote BOOLEAN NOT NULL,
-    FOREIGN KEY (excuse_id) REFERENCES excuses(id) ON DELETE CASCADE,
-    FOREIGN KEY (utilisateur_id) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (excuse_id) REFERENCES excuses(id) ON DELETE CASCADE
 );
 
 -- Création de la table justificatifs
