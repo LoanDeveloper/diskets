@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import TextEditorWithSuggestions from './TextEditorWithSuggestions';
 
 const SelectType = ({ onSelect }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -23,28 +24,18 @@ const SelectType = ({ onSelect }) => {
         setSelectedOption(value);
         onSelect(value);
         setIsOpen(false);
-        console.log(value);
     };
 
     return (
         <div className="select-box-container">
-            <div className="select-box" onClick={() => setIsOpen(!isOpen)}>
-                {selectedOption?.texte || "Quel type ?"}
-                <span className="arrow">▼</span>
-            </div>
-            {isOpen && (
-                <div className="options">
-                    {types.map((option) => (
-                        <div 
-                            key={option?.id} 
-                            className="option" 
-                            onClick={() => handleSelect(option)}
-                        >
-                            {option?.texte.charAt(0).toUpperCase() + option.texte.slice(1)}
-                        </div>
-                    ))}
-                </div>
-            )}
+            <label>
+                Type
+                <TextEditorWithSuggestions 
+                    suggestions={types?.map((category) => {return category?.texte})} 
+                    onTextSelect={handleSelect} 
+                    label="Type"
+                />
+            </label>
         </div>
     );
 };

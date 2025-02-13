@@ -21,11 +21,6 @@ Les excuses sont classées par catégorie, et les utilisateurs peuvent interagir
 
 ## 📚 Base de Données
 
-**Users**
-- id (INT, AUTO_INCREMENT) : Identifiant unique de l'utilisateur.
-- email (VARCHAR(255)) : Adresse email de l'utilisateur.
-- password (VARCHAR(255)) : Mot de passe crypté de l'utilisateur.
-- role (VARCHAR(50)) : Rôle de l'utilisateur (ex : "admin", "utilisateur").
 
 **Categories**
 - id (INT, AUTO_INCREMENT) : Identifiant unique de la catégorie.
@@ -49,7 +44,6 @@ Les excuses sont classées par catégorie, et les utilisateurs peuvent interagir
 **Votes**
 - id (INT, AUTO_INCREMENT) : Identifiant unique du vote.
 - excuse_id (INT) : Identifiant de l'excuse votée.
-- utilisateur_id (INT) : Identifiant de l'utilisateur qui a voté.
 - vote (BOOLEAN) : Valeur du vote (1 = upvote, 0 = downvote).
 
 **Justificatifs**

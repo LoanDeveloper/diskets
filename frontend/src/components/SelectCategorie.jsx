@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextEditorWithSuggestions from './TextEditorWithSuggestions';
+
 
 const SelectCategorie = ({ onSelect }) => {
-    const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
     const [categories, setCategories] = useState([]);
 
@@ -17,33 +20,24 @@ const SelectCategorie = ({ onSelect }) => {
         };
 
         fetchCategories();
-    }, [isOpen]);
+    }, []);
 
-    const handleSelect = (value) => {
-        setSelectedOption(value);
-        onSelect(value);
-        setIsOpen(false);
+
+    const handleTextSelect = (selectedText) => {
+        setSelectedOption(selectedText); 
+        onSelect(selectedText);  
     };
-
     return (
         <div className="select-box-container">
-            <div className="select-box" onClick={() => setIsOpen(!isOpen)}>
-                {selectedOption?.nom || "Quelle catégorie ?"}
-                <span className="arrow">▼</span>
-            </div>
-            {isOpen && (
-                <div className="options">
-                    {categories?.map((category) => (
-                        <div 
-                            key={category?.id} 
-                            className="option" 
-                            onClick={() => handleSelect(category)}
-                        >
-                            {category?.nom.charAt(0).toUpperCase() + category.nom.slice(1)}
-                        </div>
-                    ))}
-                </div>
-            )}
+            <label>
+                Catégorie
+                <TextEditorWithSuggestions 
+                    suggestions={categories?.map((category) => {return category?.nom})} 
+                    onTextSelect={handleTextSelect} 
+                    label="Catégorie"
+                />
+            </label>
+            
         </div>
     );
 };
