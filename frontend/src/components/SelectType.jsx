@@ -28,14 +28,11 @@ const SelectType = ({ onSelect }) => {
 
     return (
         <div className="select-box-container">
-            <label>
-                Type
                 <TextEditorWithSuggestions 
                     suggestions={types?.map((category) => {return category?.texte})} 
                     onTextSelect={handleSelect} 
                     label="Type"
                 />
-            </label>
         </div>
     );
 };
