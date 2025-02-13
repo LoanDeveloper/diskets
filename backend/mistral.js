@@ -102,41 +102,19 @@ const db = mysql.createConnection({
   
   // Ajouter une nouvelle excuse (avec validation de categorie_id)
   app.post('/excuses', (req, res) => {
-    const { type_id ,categorie_id, texte } = req.body;
+    const { type ,categorie, texte } = req.body;
   
-    if (!categorie_id || !texte || !type_id) {
-        return res.status(400).send('Les champs categorie_id et texte et type_id sont obligatoires');
+    if (!categorie || !texte || !type) {
+        return res.status(400).send('Les champs categorie et texte et type sont obligatoires');
     }
   
-    // Vérifier si la catégorie existe
-    const checkCategorySQL = 'SELECT id FROM categories WHERE id = ?';
-    db.query(checkCategorySQL, [categorie_id], (err, results) => {
-        if (err) {
-            return res.status(500).send('Erreur lors de la vérification de la catégorie');
-        }
-        if (results.length === 0) {
-            return res.status(400).send('La catégorie spécifiée n\'existe pas');
-        }
-    });
-
-    const checkTypeSQL = 'SELECT id FROM types WHERE id = ?';
-
-    db.query(checkTypeSQL, [type_id], (err, results) => {
-        if (err) {
-            return res.status(500).send('Erreur lors de la vérification du type');
-        }
-        if (results.length === 0) {
-            return res.status(400).send('Le type_id spécifiée n\'existe pas');
-        }
-    });
-  
     // Insérer l'excuse
-    const sql = 'INSERT INTO excuses (categorie_id, type_id, texte) VALUES (?, ?, ?)';
-    db.query(sql, [categorie_id, type_id, texte], (err, result) => {
+    const sql = 'INSERT INTO excuses (categorie, type, texte) VALUES (?, ?, ?)';
+    db.query(sql, [categorie, type, texte], (err, result) => {
         if (err) {
             return res.status(500).send('Erreur lors de l\'ajout de l\'excuse');
         }
-        res.status(201).json({ id: result.insertId, categorie_id, texte });
+        res.status(201).json({ id: result.insertId, categorie, type, texte });
     });
 });
   
