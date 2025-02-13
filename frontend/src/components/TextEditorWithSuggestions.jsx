@@ -6,7 +6,6 @@ const TextEditorWithSuggestions = ({ suggestions, onTextSelect, label }) => {
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   const handleChange = (e) => {
-
     const text = e.target.value;
     setEditorText(text);
     filterSuggestions(text);
@@ -15,8 +14,8 @@ const TextEditorWithSuggestions = ({ suggestions, onTextSelect, label }) => {
 
   const filterSuggestions = (input) => {
     if (!input.trim()) {
-      setFilteredSuggestions([]);
-      setShowSuggestions(false);
+      setFilteredSuggestions(suggestions);
+      setShowSuggestions(true);
       return;
     }
 
@@ -37,7 +36,7 @@ const TextEditorWithSuggestions = ({ suggestions, onTextSelect, label }) => {
   };
 
   return (
-    <div style={{  color: 'black' }}>
+    <div >
       {label}
       <input
         type="text"
