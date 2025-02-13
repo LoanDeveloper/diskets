@@ -51,3 +51,15 @@ Les excuses sont classées par catégorie, et les utilisateurs peuvent interagir
 
 ## 📜 License
 Ce projet est sous licence MIT.
+
+### Lancer le serveur backend  
+```bash
+cd backend
+npm run mistral
+```
+
+### Lancer le frontend
+```bash
+cd frontend
+npm run dev
+```
