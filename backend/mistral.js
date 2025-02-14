@@ -99,7 +99,7 @@ const db = mysql.createConnection({
         res.json(results);
     });
   });
-  
+
   // Ajouter une nouvelle excuse (avec validation de categorie_id)
   app.post('/excuses', (req, res) => {
     const { type ,categorie, texte } = req.body;
@@ -108,13 +108,27 @@ const db = mysql.createConnection({
         return res.status(400).send('Les champs categorie et texte et type sont obligatoires');
     }
 
-    // Insérer l'excuse
-    const sql = 'INSERT INTO excuses (categorie, type, texte) VALUES (?, ?, ?)';
-    db.query(sql, [categorie, type, texte], (err, result) => {
+    if(texte === "Erreur lors de l'appel à l'API Mistral"){
+        return res.status(400).json({ error: "Vous ne pouvez pas enregistrer les erreurs."});
+    }
+
+    const checkExcuseSQL = 'SELECT texte FROM excuses WHERE texte = ?';
+    db.query(checkExcuseSQL, [texte], (err, results) => {
         if (err) {
-            return res.status(500).send('Erreur lors de l\'ajout de l\'excuse');
+            return res.status(500).json({ error: "Erreur lors de la vérification de la catégorie"});
         }
-        res.status(201).json({ id: result.insertId, categorie, type, texte });
+        if (results.length > 0) {
+            return res.status(400).json({ error: "Il existe déjà dans la base de donnée"});
+        }
+
+        // Insérer l'excuse
+        const sql = 'INSERT INTO excuses (categorie, type, texte) VALUES (?, ?, ?)';
+        db.query(sql, [categorie, type, texte], (err, result) => {
+            if (err) {
+                return res.status(500).send('Erreur lors de l\'ajout de l\'excuse');
+            }
+            res.status(201).json({ id: result.insertId, categorie, type, texte });
+        });
     });
 });
   
