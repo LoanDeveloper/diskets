@@ -109,7 +109,7 @@ const db = mysql.createConnection({
     }
 
     if(texte === "Erreur lors de l'appel à l'API Mistral"){
-        return res.status(400).json({ error: "Vous ne pouvez pas enregistrer les erreurs."});
+        return res.status(400).json({ error: "Vous ne pouvez pas likée les erreurs."});
     }
 
     const checkExcuseSQL = 'SELECT texte FROM excuses WHERE texte = ?';
