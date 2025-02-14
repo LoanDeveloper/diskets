@@ -3,7 +3,6 @@ import { ClipboardDocumentCheckIcon, CheckIcon } from "@heroicons/react/24/solid
 
 const FavoriteList = () => {
     const [favoris, setFavoris] = useState([]);
-    // Utilise copiedId pour savoir quel item a été copié
     const [copiedId, setCopiedId] = useState(null);
 
     const handleCopy = async (text, id) => {
@@ -31,21 +30,23 @@ const FavoriteList = () => {
     }, []);
 
     return (
-        <div className="excuse-list">
-            {favoris.map((favori) => (
-                <div className="excuse-item-container" key={favori.id}>
-                    <div className="excuse-item">{favori.texte}</div>
-                    <button onClick={() => handleCopy(favori.texte, favori.id)} className="copy-button p-2 flex items-center justify-center">
-                        <span>
-                            {copiedId === favori.id ? (
-                                <CheckIcon className="h-6 w-6 text-green-500" />
-                            ) : (
-                                <ClipboardDocumentCheckIcon className="h-6 w-6 text-gray-500" />
-                            )}
-                        </span>
-                    </button>
-                </div>
-            ))}
+        <div className="excuse-list-container">
+            <div className="excuse-list">
+                {favoris.map((favori) => (
+                    <div className="excuse-item-container" key={favori.id}>
+                        <div className="excuse-item">{favori.texte}</div>
+                        <button onClick={() => handleCopy(favori.texte, favori.id)} className="copy-button p-2 flex items-center justify-center">
+                            <span>
+                                {copiedId === favori.id ? (
+                                    <CheckIcon className="h-6 w-6 text-green-500" />
+                                ) : (
+                                    <ClipboardDocumentCheckIcon className="h-6 w-6 text-gray-500" />
+                                )}
+                            </span>
+                        </button>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };

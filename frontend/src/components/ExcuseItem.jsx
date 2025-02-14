@@ -81,7 +81,6 @@ const ExcuseItem = ({ category, type }) => {
                 <span>{copied ? <CheckIcon className="h-6 w-6 text-gray-500" /> : <ClipboardDocumentCheckIcon className="h-6 w-6 text-gray-500" />}</span>
             </button>
 
-
             <Modal
                 open={openModal}
                 onClose={() => setOpenModal(false)}
