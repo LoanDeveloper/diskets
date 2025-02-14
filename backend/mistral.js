@@ -120,8 +120,6 @@ const db = mysql.createConnection({
         if (results.length > 0) {
             return res.status(400).json({ error: "Il existe déjà dans la base de donnée"});
         }
-        // Mettre à jour l'excuse
-        updateExcuse();
     });
   
     // Insérer l'excuse
