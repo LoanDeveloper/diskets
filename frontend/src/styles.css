@@ -27,7 +27,7 @@
 }
 
 
-.button-primary, .theme-toggle-button  {
+.button-primary, .theme-toggle-button {
     background-color: var(--button-background);
     color: var(--button-text-color);
     border: 2px solid var(--button-background);
@@ -47,10 +47,14 @@
     border-radius: 10px;
 }
 
+
 .home-container {
+    display: flex;
+    flex-direction: column;
     background-color: var(--background-color);
     padding: 25px;
     border-radius: 15px;
+    align-items: center;
 }
 
 
@@ -101,10 +105,11 @@ h1 {
 
 .select-container {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap; 
+    justify-content: center;
     align-items: center;
-    gap: 40px;
-    margin-bottom: 20px;
+    gap: 20px;
+    width: 100%;
 }
 
 .select-box-container {
@@ -126,7 +131,9 @@ h1 {
 
 .select-group {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
+    justify-content: center;
 }
 
 .select-container .generate-button {
@@ -198,15 +205,19 @@ h1 {
 
 #input-select {
     display: flex;
-    gap: 50px; /* Ajuste l'espacement entre les deux */
+    gap: 50px; 
 }
 
+
 .excuse-list {
-    margin-top: 20px;
     display: flex;
     flex-direction: column;
+    margin-top: 20px;
     gap: 10px;
+    width: 100%;
+    max-width: 600px;
 }
+
 
 .excuse-item-container {
     background-color: var(--card-background);
@@ -214,34 +225,30 @@ h1 {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    padding: 10px;
     height: auto;
-    width: 100%;
+    flex-wrap: wrap; 
 }
 
 .excuse-item-container:hover {
     background-color: var(--card-hover-background);
-    /* .copy-button{
-        background-color: #D9D9D9;
-    } */
 }
 
 .excuse-item {
     padding: 12px;
     font-size: 14px;
     font-weight: 500;
-    color: #000;
+    color: var(--text-color);
     cursor: pointer;
     transition: transform 0.2s;
     width: 75%;
 }
 
+
 .copy-button {
+    background-color: transparent;
     width: 30px;
     height: 30px;
     border: none;
     cursor: pointer;
-}
-
-.copy-button:hover {
-    background-color: transparent;
 }

@@ -43,7 +43,7 @@ const Home = () => {
     return (
         <div className="home-container">
             <button className="theme-toggle-button" onClick={toggleTheme}>
-                {theme === "light" ? "🌙 Mode sombre" : "☀️ Mode clair"}
+                {theme === "light" ? "🌙" : "☀️"}
             </button>
             <h1>Diskets</h1>
             <p>Tu ne sais pas quoi inventer comme excuse ? Nous sommes là pour ça !</p>
