@@ -99,7 +99,7 @@ const db = mysql.createConnection({
         res.json(results);
     });
   });
-  
+
   // Ajouter une nouvelle excuse (avec validation de categorie_id)
   app.post('/excuses', (req, res) => {
     const { type ,categorie, texte } = req.body;

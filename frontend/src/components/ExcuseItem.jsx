@@ -7,6 +7,7 @@ const ExcuseItem = ({ category, type }) => {
     const [copied, setCopied] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [openModal, setOpenModal] = useState(false);
+    const [error, setError] = useState("");
 
     useEffect(() => {
         setExcuse("");
@@ -51,6 +52,7 @@ const ExcuseItem = ({ category, type }) => {
 
     const handleSaveExcuse = async() =>{
         setIsLoading(true)
+        setError("")
         try {
             const response = await fetch("http://localhost:3000/excuses", {
                 method: "POST",
@@ -63,10 +65,16 @@ const ExcuseItem = ({ category, type }) => {
                     "categorie": category
                 }),
                 });
+                    
+                const data = await response.json();
+
                 if (response.ok) {
                     setOpenModal(true);
                 }
-            const data = await response.json();
+                else{
+                    setError(data.error)
+                    setOpenModal(true);
+                }
         } catch (error) {
             console.error("Erreur lors de la récupération des types", error);
         }
@@ -103,11 +111,17 @@ const ExcuseItem = ({ category, type }) => {
                     }}
                 >
                     <Typography id="modal-title" variant="h6" component="h2">
-                        Excuse enregistrée !
+                     Enregistrement de l'excuse
                     </Typography>
-                    <Typography id="modal-description" sx={{ mt: 2 }}>
+                    {error === '' ? (
+                        <Typography id="modal-description" sx={{ mt: 2 }}>
                         Votre excuse a bien été sauvegardée.
-                    </Typography>
+                        </Typography>
+                    ): (
+                        <Typography id="modal-description" sx={{ mt: 2 }}>
+                            {error}
+                        </Typography>
+                    )}
                     <Button onClick={() => setOpenModal(false)} variant="contained" sx={{ mt: 3 }}>
                         OK
                     </Button>
