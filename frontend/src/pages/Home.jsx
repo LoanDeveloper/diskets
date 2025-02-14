@@ -3,6 +3,7 @@ import SelectType from "../components/SelectType";
 import SelectCategorie from "../components/SelectCategorie";
 import ExcuseItem from "../components/ExcuseItem"
 import AddCategorieModal from "../components/AddCategorieModal";
+import { Link } from "react-router-dom";
 
 const Home = () => {
     const [category, setCategory] = useState("");
@@ -42,9 +43,12 @@ const Home = () => {
 
     return (
         <div className="home-container">
-            <button className="theme-toggle-button" onClick={toggleTheme}>
-                {theme === "light" ? "🌙" : "☀️"}
-            </button>
+            <div className="header">
+                <button className="header-button" onClick={toggleTheme}>
+                    {theme === "light" ? "🌙" : "☀️"}
+                </button>
+                <Link to="/favoris" className="header-button">❤️</Link>
+            </div>
             <h1>Diskets</h1>
             <p>Tu ne sais pas quoi inventer comme excuse ? Nous sommes là pour ça !</p>
 

@@ -45,6 +45,7 @@
     cursor: pointer;
     transition: background-color 0.3s ease, border-color 0.3s ease;
     border-radius: 10px;
+    padding: 5px;
 }
 
 
@@ -80,7 +81,7 @@ body {
     color: var(--text-color);
     text-align: center;
     margin: 0;
-    padding: 0;
+    padding: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -209,13 +210,19 @@ h1 {
 }
 
 
+/* Contrainte de hauteur pour activer le scroll */
 .excuse-list {
+    max-height: 400px;  /* Ajuste cette valeur selon tes besoins */
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
-    margin-top: 20px;
     gap: 10px;
-    width: 100%;
-    max-width: 600px;
+    padding-right: 5px; /* Pour éviter que le contenu soit caché par la scrollbar */
+}
+
+/* Customisation de la scrollbar (pour Chrome, Edge, Safari) */
+.excuse-list::-webkit-scrollbar {
+    width: 8px;
 }
 
 
@@ -251,4 +258,28 @@ h1 {
     height: 30px;
     border: none;
     cursor: pointer;
+}
+
+.copy-button:hover {
+    background-color: transparent;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: end;
+}
+
+.header-button {
+    background-color: var(--button-background);
+    color: var(--button-text-color);
+    border: 2px solid var(--button-background);
+    border-radius: 8px;
+    padding: 12px;  
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    text-decoration: none;
+    color: white;
 }

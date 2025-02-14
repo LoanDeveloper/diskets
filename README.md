@@ -49,9 +49,6 @@ Les excuses sont classées par catégorie, et les utilisateurs peuvent interagir
 - excuse_id (INT) : Identifiant de l'excuse liée au justificatif.
 - image_url (VARCHAR(255)) : URL de l'image générée du justificatif.
 
-## 📜 License
-Ce projet est sous licence MIT.
-
 ### Lancer le serveur backend  
 ```bash
 cd backend
@@ -63,3 +60,6 @@ npm run mistral
 cd frontend
 npm run dev
 ```
+
+## 📜 License
+Ce projet est sous licence MIT.
