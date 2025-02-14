@@ -118,7 +118,7 @@ const db = mysql.createConnection({
             return res.status(500).json({ error: "Erreur lors de la vérification de la catégorie"});
         }
         if (results.length > 0) {
-            return res.status(400).json({ error: "Il existe déjà dans la base de donnée"});
+            return res.status(400).json({ error: "Il a déjà été likée"});
         }
         // Insérer l'excuse
         const sql = 'INSERT INTO excuses (categorie, type, texte) VALUES (?, ?, ?)';
