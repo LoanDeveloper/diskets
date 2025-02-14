@@ -37,7 +37,7 @@ const TextEditorWithSuggestions = ({ suggestions, onTextSelect, label }) => {
 
   return (
     <div >
-      {label}
+      <p className='label'>{label}</p>
       <input
         type="text"
         value={editorText}
