@@ -120,15 +120,14 @@ const db = mysql.createConnection({
         if (results.length > 0) {
             return res.status(400).json({ error: "Il existe déjà dans la base de donnée"});
         }
-    });
-  
-    // Insérer l'excuse
-    const sql = 'INSERT INTO excuses (categorie, type, texte) VALUES (?, ?, ?)';
-    db.query(sql, [categorie, type, texte], (err, result) => {
-        if (err) {
-            return res.status(500).send('Erreur lors de l\'ajout de l\'excuse');
-        }
-        res.status(201).json({ id: result.insertId, categorie, type, texte });
+        // Insérer l'excuse
+        const sql = 'INSERT INTO excuses (categorie, type, texte) VALUES (?, ?, ?)';
+        db.query(sql, [categorie, type, texte], (err, result) => {
+            if (err) {
+                return res.status(500).send('Erreur lors de l\'ajout de l\'excuse');
+            }
+            res.status(201).json({ id: result.insertId, categorie, type, texte });
+        });
     });
 });
   
