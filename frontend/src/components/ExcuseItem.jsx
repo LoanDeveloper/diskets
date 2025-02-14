@@ -76,9 +76,7 @@ const ExcuseItem = ({ category, type }) => {
     return (
         <div className="excuse-item-container">
             <div className="excuse-item">{excuse}</div>
-            <button className="button-secondary" onClick={handleSaveExcuse} disabled={isLoading}>
-                Enregistrer
-            </button>
+            <button className="button-secondary" onClick={handleSaveExcuse} disabled={isLoading}>❤️</button>
             <button onClick={handleCopy} disabled={!excuse} className="copy-button">
                 <span>{copied ? <CheckIcon className="h-6 w-6 text-gray-500" /> : <ClipboardDocumentCheckIcon className="h-6 w-6 text-gray-500" />}</span>
             </button>
