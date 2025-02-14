@@ -118,7 +118,7 @@ const ExcuseItem = ({ category, type }) => {
                         Votre excuse a bien été sauvegardée.
                         </Typography>
                     ): (
-                        <Typography id="modal-description" sx={{ mt: 2 }}>
+                        <Typography id="modal-description" style={{color: 'red'}} sx={{ mt: 2 }}>
                             {error}
                         </Typography>
                     )}
