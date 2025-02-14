@@ -108,22 +108,6 @@ const db = mysql.createConnection({
         return res.status(400).send('Les champs categorie et texte et type sont obligatoires');
     }
 
-    if(texte === "Erreur lors de l'appel à l'API Mistral"){
-        return res.status(400).json({ error: "Vous ne pouvez pas enregistrer les erreurs."});
-    }
-
-    const checkExcuseSQL = 'SELECT texte FROM excuses WHERE texte = ?';
-    db.query(checkExcuseSQL, [texte], (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: "Erreur lors de la vérification de la catégorie"});
-        }
-        if (results.length > 0) {
-            return res.status(400).json({ error: "Il existe déjà dans la base de donnée"});
-        }
-        // Mettre à jour l'excuse
-        updateExcuse();
-    });
-  
     // Insérer l'excuse
     const sql = 'INSERT INTO excuses (categorie, type, texte) VALUES (?, ?, ?)';
     db.query(sql, [categorie, type, texte], (err, result) => {
